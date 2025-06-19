@@ -13,12 +13,11 @@ app.use(express.json());
 app.use(cors());
 app.use("/api/events", router);
 
-//if (process.env.NODE_ENV === "production") {
+
 if (true) {
-  // static folder
+
   app.use(express.static(__dirname + "/public/"));
 
-  // handle SPA
   app.get(/.*/, (req, res) => res.sendFile(__dirname + "/public/index.html"));
 }
 

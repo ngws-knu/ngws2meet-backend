@@ -7,7 +7,7 @@ const moment = require("moment");
 var router = express.Router()
 
 router.get("/", function (req, res) {
-  //Show all users
+
   user
     .find()
     .then((users) => res.json(users))
@@ -15,7 +15,7 @@ router.get("/", function (req, res) {
 });
 
 router.get("/:id", function (req, res) {
-  //Finds users by ID
+
   user
     .findById(req.params.id)
     .then((doc) => res.json(doc))
@@ -23,7 +23,7 @@ router.get("/:id", function (req, res) {
 });
 
 router.post("/add", function (req, res) {
-  //Add a new user
+
   console.log(req.body)
   const event_name = req.body.event_name;
   const start_date = req.body.start_date;
@@ -50,7 +50,7 @@ router.post("/add", function (req, res) {
     availability,
     metaEnd: endUnix,
   });
-  //Create users_time_object
+
   newUser
     .save()
     .then(() => res.json(newUser.id))
@@ -76,7 +76,7 @@ router.put("/:id/adduser", async (req, res) => {
       return res.json({ message: "welcome back", id: existing.id });
     }
 
-    // 3) 새 사용자
+
     const ID = IDGenerator();
     const passwordHash = await bcrypt.hash(password, 10);
     const isHost = eventDoc.users.length === 0;

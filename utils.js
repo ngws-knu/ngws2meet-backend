@@ -1,6 +1,6 @@
 const SLOT = 900;
 const generateAvailability = (start_date, end_date, start_time, end_time) => {
-  //create array of unix time
+
   const user_time_array = create_user_time_array_hr(
     start_date,
     end_date,
@@ -8,7 +8,7 @@ const generateAvailability = (start_date, end_date, start_time, end_time) => {
     end_time
   );
 
-  // create objects of unix time with count set to 0
+
   const user_time = new Object();
   for (let i = 0; i < user_time_array.length; i++) {
     const timeslot = user_time_array[i];
@@ -20,17 +20,17 @@ const generateAvailability = (start_date, end_date, start_time, end_time) => {
 const create_user_time_array_hr = (start_date, end_date, start_time, end_time) => {
   const arr = [];
 
-  const dayStartUnix = new Date(start_date).getTime() / 1000; // 00:00:00
+  const dayStartUnix = new Date(start_date).getTime() / 1000; 
   const dayEndUnix   = new Date(end_date).getTime()   / 1000;
-  const daysDiff     = (dayEndUnix - dayStartUnix) / 86400;   // 일수 차이
+  const daysDiff     = (dayEndUnix - dayStartUnix) / 86400;  
 
-  const startOffset = secondsConverter(start_time); // 09:00 → 32400
-  const endOffset   = secondsConverter(end_time);   // 17:00 → 61200
+  const startOffset = secondsConverter(start_time);
+  const endOffset   = secondsConverter(end_time); 
 
   for (let i = 0; i <= daysDiff; i++) {
-    const base = dayStartUnix + 86400 * i;          // 해당 날짜 자정
-    const first = base + startOffset;               // 09:00
-    const last  = base + endOffset;            // 17:00
+    const base = dayStartUnix + 86400 * i;       
+    const first = base + startOffset;            
+    const last  = base + endOffset;        
 
     for (let ts = first; ts < last; ts += SLOT) {
       arr.push(ts);                        
@@ -39,19 +39,16 @@ const create_user_time_array_hr = (start_date, end_date, start_time, end_time) =
   return arr;
 };
 
-//Convert "HH:MM" time format to seconds
+
 const secondsConverter = (time) => {
   const hour   = parseInt(time.slice(0, 2)) * 3600;
   const minute = parseInt(time.slice(3, 5)) * 60;
-  //   const second = parseInt(time.slice(6, 8));
+
   const sum = hour + minute;
   return sum;
 };
 
 const IDGenerator = function () {
-  // Math.random should be unique because of its seeding algorithm.
-  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-  // after the decimal.
   return Math.random().toString(36).substr(2, 9);
 };
 
